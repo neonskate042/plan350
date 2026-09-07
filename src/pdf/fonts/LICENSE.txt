@@ -1,0 +1,3 @@
+Manrope © Mikhail Sharanda, лицензия SIL Open Font License 1.1.
+Статические начертания взяты из пакета @expo-google-fonts/manrope.
+Используются для генерации PDF-материалов курса (встраивание разрешено OFL).

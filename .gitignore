@@ -1,0 +1,31 @@
+# Зависимости
+node_modules/
+
+# Сборки
+dist/
+build/
+.next/
+/out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Секреты и окружение (ВАЖНО: не публиковать ключи!)
+# .env.example — не секрет, это шаблон без значений, его коммитим специально.
+.env
+.env.local
+.env*.local
+*.pem
+
+# Деплой
+.vercel
+
+# Дев-артефакты — образцы PDF для ручной проверки, не часть продукта
+samples/*.pdf
+
+# Логи
+*.log
+npm-debug.log*
+
+# Системные файлы
+.DS_Store
+Thumbs.db

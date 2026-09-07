@@ -1,0 +1,49 @@
+// Схема базы данных (Prisma). Документация: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Заказ бизнес-плана. Один заказ = одна анкета + один платёж + один документ.
+model Order {
+  id    String @id @default(cuid())
+  email String
+
+  applicantName String
+  regionKey     String // ключ региона из lib/regions.ts — не сам текст, чтобы не разъезжалось
+  city          String
+  activity      String
+  requestedSum  Int
+  experience    String
+
+  // Позиции сметы, как ввёл клиент: [{ item, sum, confirmed }]
+  // confirmed=true — сумма из реального КП поставщика, false — ориентировочно.
+  equipment Json
+
+  tariff String // "basic" | "standard" | "max" — см. lib/products.ts
+  price  Int
+
+  // Платёж в ЮKassa
+  paid      Boolean   @default(false)
+  paymentId String?
+  paidAt    DateTime?
+
+  // Статус генерации документа
+  status String @default("draft") // draft | paid | generating | ready | failed
+  error  String? // текст ошибки генерации, если status = failed
+
+  // Готовые файлы храним в базе (не на диске сервера — переживают передеплой)
+  pdfBytes   Bytes?
+  excelBytes Bytes?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([paymentId])
+  @@index([email])
+}
