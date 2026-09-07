@@ -6,7 +6,12 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  // DATABASE_URL — через пулер Neon (для запросов приложения в рантайме).
+  // DIRECT_URL — прямое подключение, нужно только для миграций (пулер Neon
+  // работает в режиме transaction pooling, который не поддерживает часть
+  // того, что использует `prisma migrate`). В проде DIRECT_URL не нужен.
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // Заказ бизнес-плана. Один заказ = одна анкета + один платёж + один документ.
